@@ -1,0 +1,19 @@
+{
+    "username": "florian.hoehn@kaplan.com.uat", 
+    "environment": "sandbox", 
+    "project_name": "Heatmap", 
+    "workspace": "/Users/florianhoehn/Projects/Kaplan/", 
+    "org_url": "", 
+    "namespace": "", 
+    "id": "49KE0MDBB3ELRTPIXCAJWD0UAJAEGKVB", 
+    "metadata_container": "1dcg00000001O4xAAE", 
+    "subscription": [
+        "ApexClass", 
+        "ApexComponent", 
+        "ApexPage", 
+        "ApexTrigger", 
+        "CustomObject", 
+        "Profile", 
+        "StaticResource"
+    ]
+}
