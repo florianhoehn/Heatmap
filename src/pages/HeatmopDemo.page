@@ -1,18 +1,110 @@
 <apex:page showHeader="false"
            sidebar="false"
-           standardStylesheets="false">
-	<apex:stylesheet value="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+           standardStylesheets="false"
+           controller="HeatmapDemoController">
+  <head>
+    <apex:stylesheet value="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+    <apex:includeScript value="https://maps.googleapis.com/maps/api/js?sensor=false"/>
+    <apex:includeScript value="https://maps.gstatic.com/maps-api-v3/api/js/19/4/common.js"/>
+    <apex:includeScript value="https://maps.gstatic.com/maps-api-v3/api/js/19/4/map.js"/>
+    <apex:includeScript value="https://maps.gstatic.com/maps-api-v3/api/js/19/4/overlay.js"/>
+    <apex:includeScript value="https://maps.gstatic.com/maps-api-v3/api/js/19/4/util.js"/>
+    <apex:includeScript value="https://maps.gstatic.com/maps-api-v3/api/js/19/4/onion.js"/>
+    <apex:includeScript value="https://maps.gstatic.com/maps-api-v3/api/js/19/4/controls.js"/>
+    <apex:includeScript value="https://maps.gstatic.com/maps-api-v3/api/js/19/4/stats.js"/>
+    <apex:includeScript value="https://maps.gstatic.com/maps-api-v3/api/js/19/4/marker.js"/>
+  </head>
+
+
+  <script type="text/javascript">
+     var countries = [];
+  </script>
+  <apex:repeat value="{!countryMap}" var="countryName">
+    <script type="text/javascript">
+      var country = {
+        name: '{!countryMap[countryName].name}',
+        latitude: parseFloat('{!countryMap[countryName].latitude}'),
+        latitudeStr: '{!countryMap[countryName].latitude}',
+        longitude: parseFloat('{!countryMap[countryName].longitude}'),
+        longitudeStr: '{!countryMap[countryName].longitude}',
+        count: {!countryMap[countryName].count}
+      }
+      if(country.count > 30) {
+        country.count = 30;
+      }
+      countries.push(country);
+    </script>
+  </apex:repeat>
 
   <!-- HTML FOR APP -->
-  <div ng-app="globalPicklist">
+  <div ng-app="heatmap">
     <a ui-sref="home">Home</a>
-    <a ui-sref="configuration">Configuration</a>
-    <ui-view />
+    <div id="map-canvas" style="width:800px;height:800px;" />
   </div>
 
   <!-- INCLUDE ANGULARJS -->
   <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min.js"/>
   <apex:includeScript value="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.11/angular-ui-router.min.js"/>
+
+  <!-- ANGULAR APP -->
   <apex:includeScript value="{!URLFOR($Resource.Heatmap,
                              'assets/js/heatmap.js')}"/>
+  <apex:includeScript value="{!URLFOR($Resource.Heatmap,
+                             'assets/js/gmaps-heatmap.js')}"/>
+
+  <!-- HEATMAP -->
+  <apex:includeScript value="{!URLFOR($Resource.Heatmap,
+                             'heatmap.module.js')}"/>
+  <apex:includeScript value="{!URLFOR($Resource.Heatmap,
+                             'heatmap.route.js')}"/>
+
+
+  <script type="text/javascript">
+    window.onload = function() {
+
+        // map center
+        var myLatlng = new google.maps.LatLng(25.6586, -80.3568);
+        // map options,
+        var myOptions = {
+          zoom: 1,
+          center: myLatlng
+        };
+        // standard map
+        map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+        // heatmap layer
+        heatmap = new HeatmapOverlay(map,
+          {
+            // radius should be small ONLY if scaleRadius is true (or small radius is intended)
+            "radius": 10,
+            "maxOpacity": 1,
+            // scales the radius based on map zoom
+            "scaleRadius": true,
+            // if set to false the heatmap uses the global maximum for colorization
+            // if activated: uses the data maximum within the current map boundaries
+            //   (there will always be a red spot with useLocalExtremas true)
+            "useLocalExtrema": true,
+            // which field name in your data represents the latitude - default "lat"
+            latField: 'latitude',
+            // which field name in your data represents the longitude - default "lng"
+            lngField: 'longitude',
+            // which field name in your data represents the data value - default "value"
+            valueField: 'count'
+          }
+        );
+
+        var testData = {
+          max: 30,
+          min: 0,
+          data: countries
+        };
+
+        setTimeout(function() {
+          heatmap.setData(testData);
+            console.log(this.heatmap);
+        }, 2000);
+
+
+
+    };
+  </script>
 </apex:page>

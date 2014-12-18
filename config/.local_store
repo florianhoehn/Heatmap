@@ -138,9 +138,22 @@
         "id": "081g0000000CtPKAA0", 
         "lastModifiedById": "005g0000001YLHVAA4", 
         "lastModifiedByName": "Florian Hoehn", 
-        "lastModifiedDate": "2014-12-18 09:59:58", 
+        "lastModifiedDate": "2014-12-18 10:39:30", 
         "mmState": "clean", 
         "type": "StaticResource"
+    }, 
+    "HeatmapDemoController.cls": {
+        "createdById": "005g0000001YLHVAA4", 
+        "createdByName": "Florian Hoehn", 
+        "createdDate": "2014-12-18 11:16:21", 
+        "fileName": "unpackaged/classes/HeatmapDemoController.cls", 
+        "fullName": "HeatmapDemoController", 
+        "id": "01pg00000001tkpAAA", 
+        "lastModifiedById": "005g0000001YLHVAA4", 
+        "lastModifiedByName": "Florian Hoehn", 
+        "lastModifiedDate": "2014-12-18 13:09:24", 
+        "mmState": "clean", 
+        "type": "ApexClass"
     }, 
     "HeatmopDemo.page": {
         "createdById": "005g0000001YLHVAA4", 
@@ -151,7 +164,7 @@
         "id": "066g00000009CkEAAU", 
         "lastModifiedById": "005g0000001YLHVAA4", 
         "lastModifiedByName": "Florian Hoehn", 
-        "lastModifiedDate": "2014-12-18 09:56:19", 
+        "lastModifiedDate": "2014-12-18 13:02:45", 
         "mmState": "clean", 
         "type": "ApexPage"
     }, 
